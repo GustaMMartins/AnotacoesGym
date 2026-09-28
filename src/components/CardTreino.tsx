@@ -3,37 +3,44 @@ import { View, Text, Pressable, StyleSheet } from 'react-native';
 type Props = {
   nome: string;
   grupoMuscular: string;
-  onPress?: () => void;
+  onPress: () => void;
   onExcluir: () => void;
-  onEditar?: () => void;
+  onEditar: () => void;
 };
 
-export default function CardTreino({ nome, grupoMuscular, onPress, onExcluir, onEditar }: Props) {
+export default function CardTreino({
+  nome,
+  grupoMuscular,
+  onPress,
+  onExcluir,
+  onEditar,
+}: Props) {
   return (
     <View style={estilos.card}>
       <Text style={estilos.titulo}>{nome}</Text>
-
-      <Text style={estilos.grupoMuscular}>
-        {grupoMuscular}
-      </Text>
+      <Text style={estilos.grupoMuscular}>{grupoMuscular}</Text>
 
       <Pressable
-  style={estilos.botao}
-  onPress={onPress}>
-        <Text style={estilos.textoBotao}>Começar</Text>
+        style={({ pressed }) => [estilos.botaoPrincipal, pressed && estilos.botaoPressionado]}
+        onPress={onPress}
+      >
+        <Text style={estilos.textoBotaoPrincipal}>Abrir treino</Text>
       </Pressable>
 
-      <Pressable
-  style={estilos.botaoExcluir}
-  onPress={onExcluir}>
-        <Text style={estilos.textoBotaoExcluir}>Excluir</Text>
-      </Pressable>
-
-      <Pressable
-  style={estilos.botaoEditar}
-  onPress={onEditar}>
-        <Text style={estilos.textoBotaoEditar}>Editar</Text>
-      </Pressable>
+      <View style={estilos.linhaAcoes}>
+        <Pressable
+          style={({ pressed }) => [estilos.botaoEditar, pressed && estilos.botaoPressionado]}
+          onPress={onEditar}
+        >
+          <Text style={estilos.textoBotaoEditar}>Editar</Text>
+        </Pressable>
+        <Pressable
+          style={({ pressed }) => [estilos.botaoExcluir, pressed && estilos.botaoPressionado]}
+          onPress={onExcluir}
+        >
+          <Text style={estilos.textoBotaoExcluir}>Excluir</Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
@@ -41,57 +48,65 @@ export default function CardTreino({ nome, grupoMuscular, onPress, onExcluir, on
 const estilos = StyleSheet.create({
   card: {
     padding: 20,
-    marginTop: 20,
-    borderRadius: 10,
+    marginBottom: 14,
+    borderRadius: 16,
     backgroundColor: '#FFFFFF',
+    shadowColor: '#172033',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 2,
   },
-
   titulo: {
+    color: '#202124',
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: '800',
   },
-
   grupoMuscular: {
-    fontSize: 16,
+    color: '#667085',
+    fontSize: 15,
     marginTop: 5,
   },
-
-  botao: {
-    marginTop: 15,
-    padding: 12,
-    borderRadius: 8,
+  botaoPrincipal: {
+    marginTop: 18,
+    paddingVertical: 13,
+    borderRadius: 10,
     backgroundColor: '#D32F2F',
   },
-
-  textoBotao: {
+  textoBotaoPrincipal: {
     color: '#FFFFFF',
     textAlign: 'center',
-    fontWeight: 'bold',
+    fontWeight: '800',
   },
-
-  botaoExcluir: {
+  linhaAcoes: {
+    flexDirection: 'row',
+    gap: 10,
     marginTop: 10,
-    padding: 12,
-    borderRadius: 8,
-    backgroundColor: '#F44336',
   },
-
-  textoBotaoExcluir: {
-    color: '#FFFFFF',
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
-
   botaoEditar: {
-    marginTop: 10,
-    padding: 12,
-    borderRadius: 8,
-    backgroundColor: '#2196F3',
+    flex: 1,
+    paddingVertical: 11,
+    borderRadius: 10,
+    backgroundColor: '#F2F4F7',
   },
-
   textoBotaoEditar: {
-    color: '#FFFFFF',
+    color: '#344054',
     textAlign: 'center',
-    fontWeight: 'bold',
+    fontWeight: '700',
+  },
+  botaoExcluir: {
+    flex: 1,
+    paddingVertical: 11,
+    borderRadius: 10,
+    backgroundColor: '#FEF3F2',
+  },
+  textoBotaoExcluir: {
+    color: '#B42318',
+    textAlign: 'center',
+    fontWeight: '700',
+  },
+  botaoPressionado: {
+    opacity: 0.72,
+    transform: [{ scale: 0.98 }],
   },
 });
