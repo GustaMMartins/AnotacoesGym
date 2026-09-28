@@ -1,8 +1,9 @@
 import { View, Text, TextInput, Pressable, StyleSheet, } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import type { RouteProp } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
-import { treinos } from '../database/dadosTemporarios';
+import { treinos, editarTreinoTemporario } from '../database/dadosTemporarios';
 
 type RootStackParamList = {
     EditarTreino: {
@@ -27,6 +28,7 @@ export default function EditarTreinoScreen() {
     const [grupoMuscular, setGrupoMuscular] = useState(
         treino?.grupoMuscular ?? ''
     );
+    const navigation = useNavigation();
 
     return (
         <View style={estilos.tela}>
@@ -54,7 +56,10 @@ export default function EditarTreinoScreen() {
                 onChangeText={setGrupoMuscular}
             />
 
-            <Pressable style={estilos.botao}>
+            <Pressable style={estilos.botao} onPress={() => {
+                editarTreinoTemporario(id, nome, grupoMuscular);
+                navigation.goBack();
+            }}>
                 <Text style={estilos.textoBotao}>
                     Salvar alterações
                 </Text>
