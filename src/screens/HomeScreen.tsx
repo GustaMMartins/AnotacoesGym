@@ -66,7 +66,7 @@ export default function HomeScreen() {
                             atualizarTela(valor => valor + 1);
                         }}
                         onEditar={() => {
-                            navigation.navigate('EditarTreino', {
+                            navigation.navigate('editarTreino',{
                                 id: item.id,
                             });
                         }}
