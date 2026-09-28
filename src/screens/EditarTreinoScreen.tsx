@@ -1,74 +1,103 @@
-import {View,Text,TextInput,Pressable,StyleSheet,} from 'react-native';
+import { View, Text, TextInput, Pressable, StyleSheet, } from 'react-native';
+import { useRoute } from '@react-navigation/native';
+import type { RouteProp } from '@react-navigation/native';
+import { useState } from 'react';
+import { treinos } from '../database/dadosTemporarios';
+
+type RootStackParamList = {
+    EditarTreino: {
+        id: number;
+    };
+};
+
+type EditarTreinoRouteProp = RouteProp<
+    RootStackParamList,
+    'EditarTreino'
+>;
 
 export default function EditarTreinoScreen() {
-  return (
-    <View style={estilos.tela}>
-      <Text style={estilos.titulo}>
-        Editar Treino
-      </Text>
+    const route = useRoute<EditarTreinoRouteProp>();
+    const { id } = route.params;
 
-      <Text style={estilos.label}>
-        Nome do treino
-      </Text>
+    const treino = treinos.find(
+        (treino) => treino.id === id
+    );
 
-      <TextInput
-        style={estilos.input}
-        placeholder="Ex: Treino A"
-      />
+    const [nome, setNome] = useState(treino?.nome ?? '');
+    const [grupoMuscular, setGrupoMuscular] = useState(
+        treino?.grupoMuscular ?? ''
+    );
 
-      <Text style={estilos.label}>
-        Grupo muscular
-      </Text>
+    return (
+        <View style={estilos.tela}>
+            <Text style={estilos.titulo}>
+                Editar Treino
+            </Text>
 
-      <TextInput
-        style={estilos.input}
-        placeholder="Ex: Peito e Tríceps"
-      />
+            <Text style={estilos.label}>
+                Nome do treino
+            </Text>
 
-      <Pressable style={estilos.botao}>
-        <Text style={estilos.textoBotao}>
-          Salvar alterações
-        </Text>
-      </Pressable>
-    </View>
-  );
+            <TextInput
+                style={estilos.input}
+                value={nome}
+                onChangeText={setNome}
+            />
+
+            <Text style={estilos.label}>
+                Grupo muscular
+            </Text>
+
+            <TextInput
+                style={estilos.input}
+                value={grupoMuscular}
+                onChangeText={setGrupoMuscular}
+            />
+
+            <Pressable style={estilos.botao}>
+                <Text style={estilos.textoBotao}>
+                    Salvar alterações
+                </Text>
+            </Pressable>
+        </View>
+    );
 }
 
 const estilos = StyleSheet.create({
-  tela: {
-    flex: 1,
-    padding: 20,
-  },
+    tela: {
+        flex: 1,
+        padding: 20,
+    },
 
-  titulo: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 30,
-  },
+    titulo: {
+        fontSize: 28,
+        fontWeight: 'bold',
+        marginBottom: 30,
+    },
 
-  label: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 8,
-  },
+    label: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginBottom: 8,
+    },
 
-  input: {
-    borderWidth: 1,
-    borderColor: '#999',
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 20,
-  },
+    input: {
+        borderWidth: 1,
+        borderColor: '#999',
+        borderRadius: 8,
+        padding: 12,
+        marginBottom: 20,
+    },
 
-  botao: {
-    backgroundColor: '#D32F2F',
-    padding: 14,
-    borderRadius: 8,
-  },
+    botao: {
+        backgroundColor: '#D32F2F',
+        padding: 14,
+        borderRadius: 8,
+    },
 
-  textoBotao: {
-    color: '#FFFFFF',
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
+    textoBotao: {
+        color: '#FFFFFF',
+        textAlign: 'center',
+        fontWeight: 'bold',
+    },
 });

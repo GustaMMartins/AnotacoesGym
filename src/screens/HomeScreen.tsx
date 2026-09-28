@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { View, Text, StyleSheet, FlatList, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -13,6 +13,10 @@ type RootStackParamList = {
         grupoMuscular: string;
     };
     NovoTreino: undefined;
+
+    editarTreino: {
+        id: number;
+    };
 };
 
 type NavegacaoProps = NativeStackNavigationProp<RootStackParamList>;
@@ -22,9 +26,11 @@ export default function HomeScreen() {
     const navigation = useNavigation<NavegacaoProps>();
     const [, atualizarTela] = useState(0);
 
-    useFocusEffect(() => {
-        atualizarTela(valor => valor + 1);
-    });
+    useFocusEffect(
+        useCallback(() => {
+            atualizarTela(valor => valor + 1);
+        }, [])
+    );
 
     return (
         <View style={estilos.tela}>
@@ -58,6 +64,11 @@ export default function HomeScreen() {
                         onExcluir={() => {
                             excluirTreinoTemporario(item.id);
                             atualizarTela(valor => valor + 1);
+                        }}
+                        onEditar={() => {
+                            navigation.navigate('EditarTreino', {
+                                id: item.id,
+                            });
                         }}
                     />
                 )}
